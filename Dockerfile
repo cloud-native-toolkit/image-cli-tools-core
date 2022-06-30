@@ -3,6 +3,8 @@ FROM quay.io/cloudnativetoolkit/terraform:v1.1-v1.3.0
 ARG TARGETPLATFORM
 ENV OPENSHIFT_CLI_VERSION 4.10
 
+ENV TF_CLI_ARGS="-parallelism=6"
+
 RUN apk add --no-cache \
   unzip \
   sudo \
