@@ -10,7 +10,7 @@ RUN sudo dnf install -y \
   ca-certificates \
   perl \
   openvpn \
-  && dnf clean all
+  && sudo dnf clean all
 
 WORKDIR $GOPATH/bin
 
