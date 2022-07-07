@@ -1,16 +1,16 @@
 ARG TERRAFORM_VERSION=v1.2
-FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v2.0.0-fedora
+FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v2.0.0-alpine
 
 ARG TARGETPLATFORM
 ARG OPENSHIFT_CLI_VERSION=4.10
 
 ENV TF_CLI_ARGS_apply="-parallelism=6"
 
-RUN sudo dnf install -y \
+RUN sudo apk add --no-cache \
   ca-certificates \
   perl \
   openvpn \
-  && dnf clean all
+  && rm -rf /var/cache/apk/*
 
 WORKDIR $GOPATH/bin
 
