@@ -71,44 +71,75 @@ If the client stops:
 
 The `toolkit` container is just a Docker container, so all [Docker CLI commands](https://docs.docker.com/engine/reference/commandline/cli/) work.
 
+## Container registry
+
+The build automation pushes the built container image to [quay.io/cloudnativetoolkit/cli-tools-core](https://quay.io/cloudnativetoolkit/cli-tools-core)
+
+### Floating tags
+
+The floating image tags use the following convention:
+
+- `latest` - the latest **alpine** version of the image (currently terraform v1.2)
+- `alpine` - the latest **alpine** version of the image (currently terraform v1.2)
+- `fedora` - the latest **fedora** version of the image (currently terraform v1.2)
+- `v1.2` - the latest **alpine** version of the image using terraform v1.2
+- `v1.1` - the latest **alpine** version of the image using terraform v1.1
+- `v1.0` - the latest **alpine** version of the image using terraform v1.0
+- `v1.2-alpine` - the latest **alpine** version of the image using terraform v1.2
+- `v1.1-alpine` - the latest **alpine** version of the image using terraform v1.1
+- `v1.0-alpine` - the latest **alpine** version of the image using terraform v1.0
+- `v1.2-fedora` - the latest **fedora** version of the image using terraform v1.2
+- `v1.1-fedora` - the latest **fedora** version of the image using terraform v1.1
+- `v1.0-fedora` - the latest **fedora** version of the image using terraform v1.0
+
+### Pinned tags
+
+Each release within the repository corresponds to a pinned image tag that will never be moved to another image. The pinned tags use the following naming convention:
+
+```text
+{terraform version}-{release tag}-{base OS image}
+```
+
+where:
+
+- `{terraform version}` - is the major and minor version of the terraform cli (e.g. v1.1)
+- `{release tag}` - is the release tag for this repository (e.g. v1.0.0)
+- `{base OS image}` - is the base OS image (`alpine` or `fedora`)
+
+For example:
+
+```text
+v1.1-v1.0.0-alpine
+```
+
+## Usage
+
+The image can be used by referring to the image url. The following can be used to run the container image interactively:
+
+```shell
+docker run -it quay.io/cloudnativetoolkit/cli-tools-core
+```
+
 ## Development
 
-### Prerequisites
+To build the default image using the latest version of terraform on alpine, run the following:
 
-To use/build this image, the following tools are required:
-
-- `Docker` - kinda obvious, but since we are building, testing and running a Docker image, you need to have
-the tool available
-- `node/npm` - (optional) used to consolidate the configuration and scripts for working with the image, it
-is **highly** recommended that `npm` is used; however, it is possible to run the scripts directly by looking
-at `package.json` and providing the appropriate values
-
-### Using the image
-
-To use the image, a local image of the tool is required. You can get the image either by pulling from Docker Hub or 
-building locally:
-
-```bash
-npm run pull
+```shell
+docker build -t cli-tools-core .
 ```
 
-**OR**
+### Changing terraform versions
 
-```bash
-npm run build
+The terraform version can be changed by passing the `TERRAFORM_VERSION` as a build arg. For example:
+
+```shell
+docker build --build-arg TERRAFORM_VERSION=v1.1 -t cli-tools-core:v1.1 .
 ```
 
-After that, start the image in an interactive terminal with:
+### Changing base OS versions
 
-```bash
-npm start
+The base OS can be changed by using the `Dockerfile-fedora` file. For example:
+
+```shell
+docker build -f Dockerfile-fedora -t cli-tools-core:fedora .
 ```
-
-### File Layout
-
-- `package.json` - scripts and config for the image build
-- `Dockerfile` - the docker image definition
-- `config.yaml` - the test config file for the `container-structure-test` tool
-- `scripts/` - directory for shell scripts used by `package.json` scripts to build, test, and 
-push the image
-- `src/` - directory containing files that should be included in the built image
