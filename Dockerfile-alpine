@@ -39,10 +39,44 @@ RUN curl -sL -o ./yq3 $(curl -sL https://api.github.com/repos/mikefarah/yq/relea
     chmod +x ./yq3 && \
     sudo mv ./yq3 /usr/bin/yq3
 
-RUN curl -sL -o ./helm.tar.gz https://get.helm.sh/helm-v3.8.2-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi).tar.gz && \
-    tar xzf ./helm.tar.gz linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi)/helm && \
-    sudo mv ./linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi)/helm /usr/bin/helm && \
-    rmdir ./linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi) && \
-    rm ./helm.tar.gz
+RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+## igc
+RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v1.36.2/igc-alpine-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
+    chmod +x igc && \
+    sudo mv igc /usr/local/bin
+
+## gitu
+RUN curl -sL -o ./gitu https://github.com/cloud-native-toolkit/git-client/releases/download/v1.12.13/gitu-alpine-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
+    chmod +x gitu && \
+    sudo mv gitu /usr/local/bin
+
+## kubeseal
+RUN curl -sLo kubeseal.tar.gz https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.18.1/kubeseal-0.18.1-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi).tar.gz && \
+    mkdir tmp && \
+    cd tmp && \
+    tar xzf ../kubeseal.tar.gz && \
+    chmod +x kubeseal && \
+    sudo mv kubeseal /usr/local/bin && \
+    cd .. && \
+    rm -rf tmp && \
+    rm kubeseal.tar.gz
+
+## argocd
+RUN curl -sLo argocd https://github.com/argoproj/argo-cd/releases/download/v2.4.6/argocd-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi) && \
+    chmod +x argocd && \
+    sudo mv argocd /usr/local/bin
+
+## kustomize
+RUN curl -sLo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.5.5/kustomize_v4.5.5_linux_$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi).tar.gz && \
+    mkdir tmp && \
+    cd tmp && \
+    tar xzf ../kustomize.tar.gz && \
+    sudo mv kustomize /usr/local/bin && \
+    cd .. && \
+    rm -rf tmp && \
+    rm kustomize.tar.gz
+
+VOLUME /workspaces
 
 ENTRYPOINT ["/bin/bash"]
