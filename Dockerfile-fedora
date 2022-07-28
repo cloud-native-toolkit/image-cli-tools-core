@@ -1,5 +1,5 @@
 ARG TERRAFORM_VERSION=v1.2
-FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v2.0.0-fedora
+FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v2.0.4-fedora
 
 ARG TARGETPLATFORM
 ARG OPENSHIFT_CLI_VERSION=4.10
@@ -46,12 +46,12 @@ RUN curl -sL -o ./helm.tar.gz https://get.helm.sh/helm-v3.8.2-linux-$(if [[ "$TA
     rm ./helm.tar.gz
 
 ## igc
-RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v1.36.2/igc-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
+RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v1.37.2/igc-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
     chmod +x igc && \
     sudo mv igc /usr/local/bin
 
 ## gitu
-RUN curl -sL -o ./gitu https://github.com/cloud-native-toolkit/git-client/releases/download/v1.12.13/gitu-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
+RUN curl -sL -o ./gitu https://github.com/cloud-native-toolkit/git-client/releases/download/v1.13.4/gitu-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
     chmod +x gitu && \
     sudo mv gitu /usr/local/bin
 

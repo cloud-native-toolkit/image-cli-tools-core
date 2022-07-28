@@ -1,5 +1,5 @@
 ARG TERRAFORM_VERSION=v1.2
-FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v2.0.0-alpine
+FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v2.0.4-alpine
 
 ARG TARGETPLATFORM
 ARG OPENSHIFT_CLI_VERSION=4.10
@@ -42,12 +42,12 @@ RUN curl -sL -o ./yq3 $(curl -sL https://api.github.com/repos/mikefarah/yq/relea
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
 ## igc
-RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v1.36.2/igc-alpine-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
+RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v1.37.2/igc-alpine-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
     chmod +x igc && \
     sudo mv igc /usr/local/bin
 
 ## gitu
-RUN curl -sL -o ./gitu https://github.com/cloud-native-toolkit/git-client/releases/download/v1.12.13/gitu-alpine-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
+RUN curl -sL -o ./gitu https://github.com/cloud-native-toolkit/git-client/releases/download/v1.13.4/gitu-alpine-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
     chmod +x gitu && \
     sudo mv gitu /usr/local/bin
 
