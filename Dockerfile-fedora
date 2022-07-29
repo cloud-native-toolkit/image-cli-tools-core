@@ -1,8 +1,14 @@
 ARG TERRAFORM_VERSION=v1.2
+ARG BASE_OS=linux
 FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v2.0.4-fedora
 
 ARG TARGETPLATFORM
 ARG OPENSHIFT_CLI_VERSION=4.10
+ARG IGC_VERSION=1.37.3
+ARG GITU_VERISON=1.13.5
+ARG KUBESEAL_VERSION=0.18.1
+ARG ARGOCD_VERSION=2.4.6
+ARG KUSTOMIZE_VERSION=4.5.5
 
 ENV TF_CLI_ARGS_apply="-parallelism=6"
 
@@ -46,17 +52,17 @@ RUN curl -sL -o ./helm.tar.gz https://get.helm.sh/helm-v3.8.2-linux-$(if [[ "$TA
     rm ./helm.tar.gz
 
 ## igc
-RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v1.37.2/igc-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
+RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v${IGC_VERSION}/igc-${BASE_OS}-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
     chmod +x igc && \
     sudo mv igc /usr/local/bin
 
 ## gitu
-RUN curl -sL -o ./gitu https://github.com/cloud-native-toolkit/git-client/releases/download/v1.13.4/gitu-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
+RUN curl -sL -o ./gitu https://github.com/cloud-native-toolkit/git-client/releases/download/v${GITU_VERSION}/gitu-${BASE_OS}-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
     chmod +x gitu && \
     sudo mv gitu /usr/local/bin
 
 ## kubeseal
-RUN curl -sLo kubeseal.tar.gz https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.18.1/kubeseal-0.18.1-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi).tar.gz && \
+RUN curl -sLo kubeseal.tar.gz https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION}-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi).tar.gz && \
     mkdir tmp && \
     cd tmp && \
     tar xzf ../kubeseal.tar.gz && \
@@ -67,12 +73,12 @@ RUN curl -sLo kubeseal.tar.gz https://github.com/bitnami-labs/sealed-secrets/rel
     rm kubeseal.tar.gz
 
 ## argocd
-RUN curl -sLo argocd https://github.com/argoproj/argo-cd/releases/download/v2.4.6/argocd-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi) && \
+RUN curl -sLo argocd https://github.com/argoproj/argo-cd/releases/download/v${ARGOCD_VERSION}/argocd-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi) && \
     chmod +x argocd && \
     sudo mv argocd /usr/local/bin
 
 ## kustomize
-RUN curl -sLo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.5.5/kustomize_v4.5.5_linux_$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi).tar.gz && \
+RUN curl -sLo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${KUSTOMIZE_VERSION}/kustomize_v${KUSTOMIZE_VERSION}_linux_$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi).tar.gz && \
     mkdir tmp && \
     cd tmp && \
     tar xzf ../kustomize.tar.gz && \
