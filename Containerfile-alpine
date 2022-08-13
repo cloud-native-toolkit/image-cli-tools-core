@@ -16,6 +16,7 @@ RUN sudo apk add --no-cache \
   ca-certificates \
   perl \
   openvpn \
+  apache2-utils \
   && sudo rm -rf /var/cache/apk/*
 
 WORKDIR $GOPATH/bin

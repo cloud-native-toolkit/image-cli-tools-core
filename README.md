@@ -22,6 +22,7 @@ The container includes the following tools:
 - kubeseal cli
 - argocd cli
 - kustomize cli
+- htpasswd
 
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution.**
 
