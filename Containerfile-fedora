@@ -59,6 +59,7 @@ RUN curl -sL -o ./helm.tar.gz https://get.helm.sh/helm-v3.8.2-linux-$(if [[ "$TA
 RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v${IGC_VERSION}/igc-${BASE_OS}-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
     chmod +x igc && \
     sudo mv igc /usr/local/bin && \
+    sudo igc plugins --path /usr/local/bin && \
     igc --version
 
 ## gitu
