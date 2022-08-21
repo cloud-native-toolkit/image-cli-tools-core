@@ -4,8 +4,6 @@ FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v2.0.4-alpine
 ARG TARGETPLATFORM
 ARG BASE_OS=alpine
 ARG OPENSHIFT_CLI_VERSION=4.10
-ARG IGC_VERSION=1.38.0
-ARG GITU_VERSION=1.14.1
 ARG KUBESEAL_VERSION=0.18.1
 ARG ARGOCD_VERSION=2.4.6
 ARG KUSTOMIZE_VERSION=4.5.5
@@ -51,19 +49,6 @@ RUN curl -sL -o ./yq3 $(curl -sL https://api.github.com/repos/mikefarah/yq/relea
 
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash && helm version
 
-## igc
-RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v${IGC_VERSION}/igc-${BASE_OS}-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
-    chmod +x igc && \
-    sudo mv igc /usr/local/bin && \
-    sudo igc plugins --path /usr/local/bin && \
-    igc --version
-
-## gitu
-RUN curl -sL -o ./gitu https://github.com/cloud-native-toolkit/git-client/releases/download/v${GITU_VERSION}/gitu-${BASE_OS}-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
-    chmod +x gitu && \
-    sudo mv gitu /usr/local/bin && \
-    gitu --version
-
 ## kubeseal
 RUN curl -sLo kubeseal.tar.gz https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION}-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi).tar.gz && \
     mkdir tmp && \
@@ -104,6 +89,22 @@ RUN if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then exit 0; fi; \
   rm -rf tmp && \
   rm tkn.tar.gz && \
   tkn version
+
+ARG IGC_VERSION=1.38.1
+ARG GITU_VERSION=1.14.1
+
+## igc
+RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v${IGC_VERSION}/igc-${BASE_OS}-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
+    chmod +x igc && \
+    sudo mv igc /usr/local/bin && \
+    sudo igc plugins --path /usr/local/bin && \
+    igc --version
+
+## gitu
+RUN curl -sL -o ./gitu https://github.com/cloud-native-toolkit/git-client/releases/download/v${GITU_VERSION}/gitu-${BASE_OS}-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
+    chmod +x gitu && \
+    sudo mv gitu /usr/local/bin && \
+    gitu --version
 
 VOLUME /workspaces
 
