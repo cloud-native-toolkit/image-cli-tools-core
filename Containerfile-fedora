@@ -4,11 +4,12 @@ FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v2.0.4-fedora
 ARG TARGETPLATFORM
 ARG BASE_OS=linux
 ARG OPENSHIFT_CLI_VERSION=4.10
-ARG IGC_VERSION=1.37.5
-ARG GITU_VERSION=1.13.6
+ARG IGC_VERSION=1.38.0
+ARG GITU_VERSION=1.14.1
 ARG KUBESEAL_VERSION=0.18.1
 ARG ARGOCD_VERSION=2.4.6
 ARG KUSTOMIZE_VERSION=4.5.5
+ARG TKN_VERSION=0.23.1
 
 ENV TF_CLI_ARGS_apply="-parallelism=6"
 
@@ -96,6 +97,18 @@ RUN curl -sLo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/rele
     rm -rf tmp && \
     rm kustomize.tar.gz && \
     kustomize version
+
+## tkn
+RUN if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then exit 0; fi; \
+  curl -sLo tkn.tar.gz https://mirror.openshift.com/pub/openshift-v4/amd64/clients/pipeline/${TKN_VERSION}/tkn-linux-amd64-${TKN_VERSION}.tar.gz && \
+  mkdir tmp && \
+  cd tmp && \
+  tar xzf ../tkn.tar.gz && \
+  sudo mv tkn /usr/local/bin && \
+  cd .. && \
+  rm -rf tmp && \
+  rm tkn.tar.gz && \
+  tkn version
 
 VOLUME /workspaces
 
