@@ -146,6 +146,8 @@ jobs:
           - cloud-native-toolkit/image-cli-tools-aws
           - cloud-native-toolkit/image-cli-tools-azure
           - cloud-native-toolkit/image-cli-tools-ibmcloud
+          - cloud-native-toolkit/image-cli-tools-web-terminal
+          - cloud-native-toolkit/image-github-terraform-runner
 
     steps:
       - name: Repository dispatch ${{ matrix.repo }}
