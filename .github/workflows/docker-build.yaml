@@ -134,6 +134,15 @@ jobs:
           tags: ${{ steps.cntk-meta.outputs.tags }}
           labels: ${{ steps.cntk-meta.outputs.labels }}
 
+  verify:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify
+        run: |
+          echo "Success"
+
   notify:
     needs: ["build"]
     runs-on: ubuntu-latest
@@ -146,6 +155,8 @@ jobs:
           - cloud-native-toolkit/image-cli-tools-aws
           - cloud-native-toolkit/image-cli-tools-azure
           - cloud-native-toolkit/image-cli-tools-ibmcloud
+          - cloud-native-toolkit/image-cli-tools-web-terminal
+          - cloud-native-toolkit/image-github-terraform-runner
 
     steps:
       - name: Repository dispatch ${{ matrix.repo }}
