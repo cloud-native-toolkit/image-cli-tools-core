@@ -134,6 +134,15 @@ jobs:
           tags: ${{ steps.cntk-meta.outputs.tags }}
           labels: ${{ steps.cntk-meta.outputs.labels }}
 
+  verify:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify
+        run: |
+          echo "Success"
+
   notify:
     needs: ["build"]
     runs-on: ubuntu-latest
