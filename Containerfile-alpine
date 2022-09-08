@@ -91,7 +91,7 @@ RUN if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then exit 0; fi; \
   rm tkn.tar.gz && \
   tkn version
 
-ARG IGC_VERSION=1.39.0
+ARG IGC_VERSION=1.39.1
 
 ## igc
 RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v${IGC_VERSION}/igc-${BASE_OS}-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
@@ -100,7 +100,7 @@ RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-c
     sudo igc plugins --path /usr/local/bin && \
     igc --version
 
-ARG GITU_VERSION=1.14.3
+ARG GITU_VERSION=1.14.5
 
 ## gitu
 RUN curl -sL -o ./gitu https://github.com/cloud-native-toolkit/git-client/releases/download/v${GITU_VERSION}/gitu-${BASE_OS}-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
