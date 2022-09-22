@@ -11,6 +11,7 @@ ARG TKN_VERSION=0.23.1
 
 ENV TF_CLI_ARGS_apply="-parallelism=6"
 ENV TF_LOG_PROVIDER_gitops=DEBUG
+ENV TF_LOG_PROVIDER_clis=DEBUG
 
 RUN sudo apk add --no-cache \
   ca-certificates \
