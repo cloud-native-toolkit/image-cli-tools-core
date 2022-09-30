@@ -92,7 +92,7 @@ RUN if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then exit 0; fi; \
   rm tkn.tar.gz && \
   tkn version
 
-ARG IGC_VERSION=1.41.3
+ARG IGC_VERSION=1.41.4
 
 ## igc
 RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v${IGC_VERSION}/igc-${BASE_OS}-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
