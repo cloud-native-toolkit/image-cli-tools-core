@@ -1,8 +1,8 @@
 ARG TERRAFORM_VERSION=v1.9
-FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v4.0.0-fedora
+ARG BASE_OS=linux
+FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v4.0.0-${BASE_OS}
 
 ARG TARGETPLATFORM
-ARG BASE_OS=linux
 ARG OPENSHIFT_CLI_VERSION=4.17
 ARG KUBESEAL_VERSION=0.28.0
 ARG ARGOCD_VERSION=2.14.4
@@ -100,8 +100,6 @@ USER devops
 COPY src/bin/* /usr/local/bin/
 
 COPY --chown=devops:root src/home/ ${HOME}/
-
-WORKDIR ${HOME}
 
 VOLUME /workspaces
 
