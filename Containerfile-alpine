@@ -13,12 +13,14 @@ ENV TF_CLI_ARGS_apply="-parallelism=6"
 ENV TF_LOG_PROVIDER_gitops=DEBUG
 ENV TF_LOG_PROVIDER_clis=DEBUG
 
-RUN sudo apk add --no-cache --force-broken-world \
+USER root
+RUN apk add --no-cache --force-broken-world \
   ca-certificates \
   perl \
   openvpn \
   apache2-utils \
-  && sudo rm -rf /var/cache/apk/*
+  && rm -rf /var/cache/apk/*
+USER devops
 
 WORKDIR $GOPATH/bin
 
