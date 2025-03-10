@@ -81,7 +81,7 @@ RUN mkdir tmp && \
 ARG IGC_VERSION=1.42.3
 
 ## igc
-RUN curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v${IGC_VERSION}/igc-${BASE_OS}-$(if [[ "$TARGETPLATFORM" =~ "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
+RUN echo "Base OS: ${BASE_OS}" && curl -sL -o ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v${IGC_VERSION}/igc-${BASE_OS}-$(if [[ "$TARGETPLATFORM" =~ "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
     chmod +x igc && \
     mv igc /usr/local/bin && \
     igc plugins --path /usr/local/bin && \
