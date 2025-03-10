@@ -103,4 +103,4 @@ COPY --chown=devops:root src/home/ ${HOME}/
 
 VOLUME /workspaces
 
-ENTRYPOINT ["/bin/bash", "-c", "cat ./image-message && /bin/bash"]
+ENTRYPOINT ["/bin/bash", "-c", "./image-message && /bin/bash"]
