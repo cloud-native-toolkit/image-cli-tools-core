@@ -1,5 +1,5 @@
 ARG TERRAFORM_VERSION=v1.9
-FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v4.0.0-alpine
+FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v4.0.1-alpine
 
 ARG TARGETPLATFORM
 ARG BASE_OS=alpine
