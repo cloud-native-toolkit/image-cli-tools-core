@@ -1,5 +1,5 @@
 ARG TERRAFORM_VERSION=v1.9
-FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v4.0.1-fedora
+FROM quay.io/cloudnativetoolkit/terraform:${TERRAFORM_VERSION}-v4.0.2-fedora
 
 ARG TARGETPLATFORM
 ARG BASE_OS=linux
