@@ -19,6 +19,7 @@ RUN dnf install -y \
   perl \
   openvpn \
   httpd-tools \
+  gh \
   && dnf clean all
 
 RUN mkdir tmp && \
