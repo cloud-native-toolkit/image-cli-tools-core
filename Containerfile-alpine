@@ -19,6 +19,7 @@ RUN apk add --no-cache --force-broken-world \
   perl \
   openvpn \
   apache2-utils \
+  github-cli \
   && rm -rf /var/cache/apk/*
 
 RUN mkdir tmp && \
